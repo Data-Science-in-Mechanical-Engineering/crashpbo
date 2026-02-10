@@ -1,0 +1,9 @@
+# Use Python 3.9 as the base image
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /crashpbo
+
+# Install backend dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt

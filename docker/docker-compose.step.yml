@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "8501:8501"  # Expose Streamlit frontend
+    volumes:
+      - ..:/crashpbo  # Mount the entire project directory
+    working_dir: /crashpbo # Set the working directory inside the container
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    volumes:
+      - ..:/crashpbo # Mount the entire project directory
+    working_dir: /crashpbo  # Set the working directory inside the container
+    command: ["python","-m", "crashpbo.interface.pbo_back_end", "step_response"]
+    restart: always  # Ensure the backend restarts automatically

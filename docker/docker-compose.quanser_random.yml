@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  random_parameters:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    volumes:
+      - ..:/crashpbo  # Mount the entire project directory
+    working_dir: /crashpbo  # Set the working directory inside the container
+    command: ["python", "quanser_random_experiment.py"]
+    restart: always  # Ensure the backend restarts automatically
+
+  quanser:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.quanser
+    volumes:
+      - ..:/crashpbo # Mount the entire project directory
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev:/dev
+    environment:
+      - DISPLAY=${DISPLAY}
+      - SDL_VIDEODRIVER=x11
+    working_dir: /crashpbo  # Set the working directory inside the container
+    restart: always  # Ensure the backend restarts automatically
+    command: python3 /quanser/PBO_experiment.py # sleep infinity  # Keep the container running indefinitely
+    privileged: true  # Required to access the pendulum

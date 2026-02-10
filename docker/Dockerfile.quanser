@@ -1,0 +1,44 @@
+# Use a lightweight Python base image
+FROM python:3.8
+
+# Set noninteractive frontend for apt-get
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    wget \
+    sudo \
+    gnupg \
+    software-properties-common \
+    usbutils \
+    git \
+    build-essential \
+    libusb-1.0-0-dev \
+    libgtk-3-bin\
+    && apt-get clean
+
+# big pain manually download usbutils
+RUN mkdir -p /var/lib/usbutils && \
+    wget -O /var/lib/usbutils/usb.ids http://www.linux-usb.org/usb.ids
+
+# Copy the internal repository into the container
+COPY hardware_experiments/quanser-driver /quanser
+
+# Clone Quanser SDK from GitHub
+RUN cd /quanser && \
+    git clone https://github.com/quanser/hil_sdk_linux_x86_64.git quanser-sdk
+
+# Set up and install Quanser SDK
+RUN cd /quanser/quanser-sdk && \
+    chmod a+x setup_hil_sdk uninstall_hil_sdk && \
+    mkdir -p /etc/udev/rules.d
+
+# Bypass interactive prompts and run setup script with elevated privileges
+RUN cd /quanser/quanser-sdk && \
+    echo "yes\n" | sudo ./setup_hil_sdk
+
+# Install the internal repository and its dependencies
+RUN cd /quanser && pip install -e .
+
+# Install additional required Python packages
+RUN pip install numpy scipy gym matplotlib numba vpython pandas plotly
