@@ -1,8 +1,19 @@
 # Preferential Bayesian Optimization with Crash Feedback
 
-This repository contains the implementation of preferential Bayesian optimization (PBO) with crash feedback. 
+This repository contains code for the paper ["Preferential Bayesian Optimization with Crash Feedback"](https://ieeexplore.ieee.org/document/11397370), published in *IEEE Robotics and Automation Letters* (2026).
 It includes scripts for running experiments, evaluating results, and demonstrating the PBO process through an interactive Streamlit-based interface.
 
+If you find our code or paper useful, please cite it as
+```
+@article{menn2026preferential,
+  author  = {Johanna Menn and David Stenger and Sebastian Trimpe},
+  title   = {Preferential {B}ayesian Optimization with Crash Feedback},
+  journal = {IEEE Robotics and Automation Letters},
+  pages   = {1--8},
+  year    = {2026},
+  doi     = {10.1109/LRA.2026.3665446}
+}
+```
 ---
 
 ## Setup
@@ -55,7 +66,7 @@ To run the interactive PBO demo for tuning step response of a PI-controller:
 
   2. Start the front-end interface in one terminal:
   ```
-  python -m streamlit run crashpbo/interface/pbo_front_end.py
+  python -m streamlit run crashpbo.interface.pbo_front_end
   ```
   3. Start the back-end in another terminal:
   ```
