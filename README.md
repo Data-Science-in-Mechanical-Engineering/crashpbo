@@ -66,7 +66,7 @@ To run the interactive PBO demo for tuning step response of a PI-controller:
 
   2. Start the front-end interface in one terminal:
   ```
-  python -m streamlit run crashpbo.interface.pbo_front_end
+  python -m streamlit run crashpbo/interface/pbo_front_end.py
   ```
   3. Start the back-end in another terminal:
   ```
